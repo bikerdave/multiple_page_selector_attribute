@@ -58,13 +58,14 @@ class Controller extends AttributeTypeController {
 
         if (!empty($data)) {
             foreach ($data as $key => $d) {
-                foreach ($d as $num => $t) {
-                    if (isset($values[$num])) {
-                        $values[$num][$key] = $t;
-                    } else {
-                        $values[$num] = [$key => $t];
+                if (is_array($d)) {
+                    foreach ($d as $num => $t) {
+                        if (isset($values[$num])) {
+                            $values[$num][$key] = $t;
+                        } else {
+                            $values[$num] = [$key => $t];
+                        }
                     }
-
                 }
             }
         }
