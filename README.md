@@ -15,7 +15,7 @@ $products = $c->getAttribute('related_products')->getPageCIDs();
 ```
 
 An example of using the attribute would be:
-```
+```php
 $relatedPages = $c->getAttribute('related_pages')->getPages();
 
 if (!empty($relatedPages)) { 
