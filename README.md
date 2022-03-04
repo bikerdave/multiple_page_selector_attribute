@@ -14,3 +14,19 @@ $products = $c->getAttribute('related_products')->getPageCIDs();
 
 ```
 
+An example of using the attribute would be:
+```php
+$relatedPagesAttribute = $c->getAttribute('related_pages');
+
+if ($relatedPagesAttribute) { 
+   $relatedPages = $relatedPagesAttribute->getPages()
+
+   if (!empty($relatedPages)) { 
+      echo '<ul>';
+      foreach($relatedPages as $relatedPage) {
+          echo '<li><a href="' . \Concrete\Core\Support\Facade\Url::to($relatedPage) . '">'. h($relatedPage->getCollectionName()). '</a></li>';
+      }
+      echo '</ul>';
+   }
+}
+```
