@@ -35,7 +35,7 @@ class Controller extends AttributeTypeController {
         $data = [];
 
         if (is_object($this->attributeValue)) {
-            $pages = $this->attributeValue->getValue()->getPageCIDs();
+            $pages = $this->attributeValue->getValue()->getPagesData();
 
             foreach($pages as $p) {
                 $data[] = [
@@ -83,7 +83,7 @@ class Controller extends AttributeTypeController {
                 $pageRecord = new MultiplePageRecord();
                 $pageRecord->setCID($value['cID']);
                 $pageRecord->setAttributeValue($av);
-                $av->getPageCIDs()->add($pageRecord);
+                $av->getPagesData()->add($pageRecord);
             }
         }
 
@@ -94,10 +94,28 @@ class Controller extends AttributeTypeController {
 
     public function getDisplayValue()
     {
+
         $value = $this->attributeValue->getValueObject();
         if ($value) {
-            return $value->getPageCIDs();
+
+            $pageNames = [];
+            $pages = $value->getPages();
+            $count = 0;
+
+            foreach($pages as $p) {
+                if ($count < 5) {
+                    $pageNames[] = $p->getCollectionName();
+                } else {
+                    $pageNames[] = t('+ %s more', count($pages) - $count);
+                    break;
+                }
+                $count++;
+            }
+
+            return implode(', ', $pageNames);
         }
+
+        return '';
     }
 
 }

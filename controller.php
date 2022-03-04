@@ -1,5 +1,5 @@
 <?php
-// Author: Ryan Hewitt - http://www.mesuva.com.au
+// Author: Ryan Hewitt - http://www.mesuva.com
 namespace Concrete\Package\MultiplePageSelectorAttribute;
 
 use \Concrete\Core\Package\Package;
@@ -8,7 +8,7 @@ class Controller extends Package {
 
 	protected $pkgHandle = 'multiple_page_selector_attribute';
 	protected $appVersionRequired = '8.0';
-	protected $pkgVersion = '1.0';
+	protected $pkgVersion = '1.0.1';
 
 	public function getPackageDescription() {
 		return t("Attribute that allows the selection of multiple pages");
