@@ -94,7 +94,6 @@ class Controller extends AttributeTypeController {
 
     public function getDisplayValue()
     {
-
         $value = $this->attributeValue->getValueObject();
         if ($value) {
 

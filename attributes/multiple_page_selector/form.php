@@ -20,7 +20,7 @@
 
     </table>
 
-    <button class="btn" @click.prevent="addPage"><?= t('Add Page'); ?></button>
+    <button class="btn btn-primary" @click.prevent="addPage"><?= t('Add Page'); ?></button>
 </div>
 
 <script>
