@@ -3,31 +3,40 @@
 namespace Concrete\Package\MultiplePageSelectorAttribute\Attribute\MultiplePageSelector;
 
 use Concrete\Core\Attribute\Controller as AttributeTypeController;
-
+use Concrete\Core\Attribute\FontAwesomeIconFormatter;
 use Concrete\Package\MultiplePageSelectorAttribute\Entity\MultiplePageRecord;
 use Concrete\Package\MultiplePageSelectorAttribute\Entity\MultiplePageValue;
-use Concrete\Core\Attribute\FontAwesomeIconFormatter;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
-class Controller extends AttributeTypeController {
+class Controller extends AttributeTypeController
+{
+    protected $searchIndexFieldDefinition = [
+        'type' => 'text',
+        'options' => [
+            'default' => '',
+            'notnull' => false,
+        ],
+    ];
 
-    protected $searchIndexFieldDefinition = array('type' => 'text', 'options' => array('default' => '', 'notnull' => false));
-
-    public function getIconFormatter()
+    public function getIconFormatter(): FontAwesomeIconFormatter
     {
         return new FontAwesomeIconFormatter('link');
     }
 
-    public function getSearchIndexValue()
+    public function getSearchIndexValue(): string
     {
         return '';
     }
 
-    public function getAttributeValueClass()
+    public function getAttributeValueClass(): string
     {
         return MultiplePageValue::class;
     }
 
-    public function form()
+    /**
+     * @throws BindingResolutionException
+     */
+    public function form(): void
     {
         $this->requireAsset('core/sitemap');
         $this->requireAsset('javascript', 'vue');
@@ -35,7 +44,9 @@ class Controller extends AttributeTypeController {
         $data = [];
 
         if (is_object($this->attributeValue)) {
-            $pages = $this->attributeValue->getValue()->getPagesData();
+            /** @var MultiplePageValue $value */
+            $value = $this->attributeValue->getValue();
+            $pages = $value->getPagesData();
 
             foreach($pages as $p) {
                 $data[] = [
@@ -46,11 +57,11 @@ class Controller extends AttributeTypeController {
 
         $this->set('pages', $data);
 
-        $uniquestring = $this->app->make('helper/validation/identifier')->getString(18);
-        $this->set('uniqueID', $uniquestring);
+        $uniqueString = $this->app->make('helper/validation/identifier')->getString(18);
+        $this->set('uniqueID', $uniqueString);
     }
 
-    public function createAttributeValueFromRequest()
+    public function createAttributeValueFromRequest(): MultiplePageValue
     {
         $data = $this->post();
 
@@ -73,35 +84,37 @@ class Controller extends AttributeTypeController {
         return $this->createAttributeValue($values);
     }
 
-
-    public function createAttributeValue($values)
+    /**
+     * @param array $mixed
+     */
+    public function createAttributeValue(mixed $mixed): MultiplePageValue
     {
         $av = new MultiplePageValue();
 
-        if (!empty($values)) {
-            foreach ($values as $value) {
+        if (!empty($mixed)) {
+            foreach ($mixed as $value) {
                 $pageRecord = new MultiplePageRecord();
                 $pageRecord->setCID($value['cID']);
                 $pageRecord->setAttributeValue($av);
-                $av->getPagesData()->add($pageRecord);
+                $collection = $av->getPagesData();
+                /** @noinspection PhpParamsInspection */
+                $collection->add($pageRecord);
             }
         }
 
         return $av;
     }
 
-
-
-    public function getDisplayValue()
+    public function getDisplayValue(): string
     {
+        /** @var MultiplePageValue $value */
         $value = $this->attributeValue->getValueObject();
         if ($value) {
-
             $pageNames = [];
             $pages = $value->getPages();
             $count = 0;
 
-            foreach($pages as $p) {
+            foreach ($pages as $p) {
                 if ($count < 5) {
                     $pageNames[] = $p->getCollectionName();
                 } else {
@@ -116,5 +129,4 @@ class Controller extends AttributeTypeController {
 
         return '';
     }
-
 }

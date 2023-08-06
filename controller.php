@@ -1,24 +1,34 @@
 <?php
-// Author: Ryan Hewitt - http://www.mesuva.com
+
 namespace Concrete\Package\MultiplePageSelectorAttribute;
 
-use \Concrete\Core\Package\Package;
+use Concrete\Core\Package\Package;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
-class Controller extends Package {
+class Controller extends Package
+{
+    /** @var string */
+    protected $appVersionRequired = '9.0';
 
-	protected $pkgHandle = 'multiple_page_selector_attribute';
-	protected $appVersionRequired = '8.0';
-	protected $pkgVersion = '1.0.1';
+	protected string $pkgHandle = 'multiple_page_selector_attribute';
 
-	public function getPackageDescription() {
+	protected string $pkgVersion = '9.1.0.0';
+
+    public function getPackageName(): string
+    {
+        return t("Multiple Page Selector Attribute");
+    }
+
+	public function getPackageDescription(): string
+    {
 		return t("Attribute that allows the selection of multiple pages");
 	}
 
-	public function getPackageName() {
-		return t("Multiple Page Selector Attribute");
-	}
-
-	public function install() {
+    /**
+     * @throws BindingResolutionException
+     */
+    public function install(): void
+    {
         parent::install();
         $pkg = $this->app->make('Concrete\Core\Package\PackageService')->getByHandle('multiple_page_selector_attribute');
 

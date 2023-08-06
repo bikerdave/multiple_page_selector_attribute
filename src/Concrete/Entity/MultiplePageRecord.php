@@ -1,8 +1,8 @@
 <?php
+
 namespace Concrete\Package\MultiplePageSelectorAttribute\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 
 /**
  * @ORM\Entity
@@ -11,51 +11,39 @@ use Doctrine\ORM\Mapping as ORM;
 class MultiplePageRecord
 {
     /**
-     * @ORM\Id @ORM\Column(type="integer", options={"unsigned":true})
+     * @ORM\Id
+     * @ORM\Column(type="integer", options={"unsigned":true})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $avrID;
+    protected int $avrID;
 
     /**
      * @ORM\ManyToOne(targetEntity="MultiplePageValue", inversedBy="clergy")
      * @ORM\JoinColumn(name="avID", referencedColumnName="avID")
      */
-    protected $value;
-
+    protected MultiplePageValue $value;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $cID;
+    protected int $cID;
 
-    /**
-     * @return mixed
-     */
-    public function getCID()
+    public function getCID(): int
     {
         return $this->cID;
     }
 
-    /**
-     * @param mixed $cID
-     */
-    public function setCID($cID)
+    public function setCID(int $cID): void
     {
         $this->cID = $cID;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAttributeValue()
+    public function getAttributeValue(): MultiplePageValue
     {
         return $this->value;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function setAttributeValue($value)
+    public function setAttributeValue(MultiplePageValue $value): void
     {
         $this->value = $value;
     }

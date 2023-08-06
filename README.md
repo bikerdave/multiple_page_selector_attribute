@@ -1,6 +1,6 @@
 # Multiple Page Selector Attribute
 
-A multiple page selector attribute for concrete5 version 8.
+A multiple page selector attribute for Concrete CMS v9.
 
 Once installed, you can fetch the attribute in a page template one of two ways:
 
@@ -8,7 +8,7 @@ Once installed, you can fetch the attribute in a page template one of two ways:
 $products = $c->getAttribute('related_products')->getPages();
 // $products now contains an array of collection (page) objects
 
-// or 
+// or
 $products = $c->getAttribute('related_products')->getPageCIDs();
 // $products now contains an array of page IDs
 
@@ -16,17 +16,17 @@ $products = $c->getAttribute('related_products')->getPageCIDs();
 
 An example of using the attribute would be:
 ```php
-$relatedPagesAttribute = $c->getAttribute('related_pages');
+<?php $relatedPagesAttribute = $c->getAttribute('related_pages'); ?>
 
-if ($relatedPagesAttribute) { 
-   $relatedPages = $relatedPagesAttribute->getPages()
+<?php if ($relatedPagesAttribute): ?>
+    <?php $relatedPages = $relatedPagesAttribute->getPages(); ?>
 
-   if (!empty($relatedPages)) { 
-      echo '<ul>';
-      foreach($relatedPages as $relatedPage) {
-          echo '<li><a href="' . \Concrete\Core\Support\Facade\Url::to($relatedPage) . '">'. h($relatedPage->getCollectionName()). '</a></li>';
-      }
-      echo '</ul>';
-   }
-}
+    <?php if (!empty($relatedPages)): ?>
+        <ul>
+            <?php foreach ($relatedPages as $relatedPage): ?>
+                <li><a href="<?= $relatedPage->getCollectionLink(); ?>"><?= h($relatedPage->getCollectionName()); ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+<?php endif; ?>
 ```

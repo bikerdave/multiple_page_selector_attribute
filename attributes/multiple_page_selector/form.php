@@ -1,4 +1,9 @@
-<?php  defined('C5_EXECUTE') or die("Access Denied."); ?>
+<?php
+defined('C5_EXECUTE') or die("Access Denied.");
+
+/** @var string $uniqueID */
+/** @var array $pages */
+?>
 
 <div id="mpsapp-<?= $uniqueID; ?>">
 
@@ -13,7 +18,7 @@
 
             <tr>
                 <td class="page-selector-container" style="padding: 4px; padding-right: 0"><div :data-cid="page.cID" class="page-selector-init"></div></td>
-                <td style="padding: 4px;"><i class="fa fa-arrow-up movelink" @click.prevent="moveUp(index)" v-if="index !== 0"></i> <i class="fa fa-arrow-down movelink" @click.prevent="moveDown(index)"  v-if="index !== pages.length-1"></i></td>
+                <td style="padding: 4px;"><i class="fa fa-arrow-up moveLink" @click.prevent="moveUp(index)" v-if="index !== 0"></i> <i class="fa fa-arrow-down moveLink" @click.prevent="moveDown(index)" v-if="index !== pages.length-1"></i></td>
                 <td><button class="btn btn-danger btn-sm page-remove pull-right" @click.prevent="removePage(index)"><i class="fa fa-times"></i></button></td>
             </tr>
         </template>
@@ -24,7 +29,7 @@
 </div>
 
 <script>
-    var app = new Vue({
+    new Vue({
         el: '#mpsapp-<?= $uniqueID; ?>',
         data: {
             pages: <?= json_encode($pages); ?>,
@@ -42,8 +47,7 @@
             $('#mpsapp-<?= $uniqueID; ?> .page-selector-init').removeClass('page-selector-init');
         },
         updated: function () {
-            var i;
-            for (i = 0; i < this.pages.length; i++) {
+            for (let i = 0; i < this.pages.length; i++) {
                 $('#mpsapp-<?= $uniqueID; ?> .page-selector-container').eq(i).html('<div class="page-selector-init"></div>');
                 $('#mpsapp-<?= $uniqueID; ?> .page-selector-init').concretePageSelector({
                     'inputName': '<?= $this->field('cID'); ?>[]',
@@ -81,14 +85,11 @@
             }
         }
     });
-
 </script>
 
 <style>
-    .movelink {
+    .moveLink {
         cursor: pointer;
     }
-
-
 </style>
 
