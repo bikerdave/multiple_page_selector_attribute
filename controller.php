@@ -12,7 +12,7 @@ class Controller extends Package
 
 	protected string $pkgHandle = 'multiple_page_selector_attribute';
 
-	protected string $pkgVersion = '9.1.0.0';
+	protected string $pkgVersion = '9.1.0.1';
 
     public function getPackageName(): string
     {
