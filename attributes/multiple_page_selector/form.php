@@ -7,22 +7,16 @@ defined('C5_EXECUTE') or die("Access Denied.");
 
 <div id="mpsapp-<?= $uniqueID; ?>">
 
-    <table class="table">
-
-        <template v-for="(page, index) in pages" :key="index">
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-
-            <tr>
-                <td class="page-selector-container" style="padding: 4px; padding-right: 0"><div :data-cid="page.cID" class="page-selector-init"></div></td>
-                <td style="padding: 4px;"><i class="fa fa-arrow-up moveLink" @click.prevent="moveUp(index)" v-if="index !== 0"></i> <i class="fa fa-arrow-down moveLink" @click.prevent="moveDown(index)" v-if="index !== pages.length-1"></i></td>
-                <td><button class="btn btn-danger btn-sm page-remove pull-right" @click.prevent="removePage(index)"><i class="fa fa-times"></i></button></td>
-            </tr>
-        </template>
-
+    <table class="table" style="vertical-align: middle;">
+        <tbody>
+            <template v-for="(page, index) in pages" :key="index">
+                <tr>
+                    <td class="page-selector-container"><div :data-cid="page.cID" class="page-selector-init"></div></td>
+                    <td style="width: 45px;"><button class="btn btn-danger btn-sm page-remove pull-right" @click.prevent="removePage(index)"><i class="fa fa-times"></i></button></td>
+                    <td style="width: 85px;"><button class="btn btn-link btn-sm" v-if="index !== 0"><i class="fa fa-arrow-up moveLink" @click.prevent="moveUp(index)"></i></button> <button class="btn btn-link btn-sm" v-if="index !== pages.length-1"><i class="fa fa-arrow-down moveLink" @click.prevent="moveDown(index)"></i></button></td>
+                </tr>
+            </template>
+        </tbody>
     </table>
 
     <button class="btn btn-primary" @click.prevent="addPage"><?= t('Add Page'); ?></button>
